@@ -1,0 +1,141 @@
+ create table product(p_id int   AUTO_INCREMENT  primary key,p_type varchar(30),p_name varchar(50),p_imgpath varchar(1000),p_price float,p_initial_stock int,p_final_stock int,p_time varchar(40),p_created_by varchar(50),p_description text);
+
+
+
+
+mysql> desc product;
++-----------------+---------------+------+-----+---------+---------------
+| Field           | Type          | Null | Key | Default | Extra
++-----------------+---------------+------+-----+---------+---------------
+| p_id            | int(11)       | NO   | PRI | NULL    | auto_increment
+| p_type          | varchar(30)   | YES  |     | NULL    |
+| p_name          | varchar(50)   | YES  |     | NULL    |
+| p_imgpath       | varchar(1000) | YES  |     | NULL    |
+| p_price         | float         | YES  |     | NULL    |
+| p_initial_stock | int(11)       | YES  |     | NULL    |
+| p_final_stock   | int(11)       | YES  |     | NULL    |
+| p_time          | varchar(40)   | YES  |     | NULL    |
+| p_created_by    | varchar(50)   | YES  |     | NULL    |
+| p_description   | text          | YES  |     | NULL    |
++-----------------+---------------+------+-----+---------+---------------
+
+
+mysql> desc employee;
++-----------------+---------------+------+-----+---------+-------+
+| Field           | Type          | Null | Key | Default | Extra |
++-----------------+---------------+------+-----+---------+-------+
+| e_id            | int(11)       | NO   |     | NULL    |       |
+| e_type          | varchar(30)   | YES  |     | NULL    |       |
+| e_username      | varchar(50)   | NO   | PRI | NULL    |       |
+| e_password      | varchar(50)   | NO   |     | NULL    |       |
+| e_salary        | float         | YES  |     | NULL    |       |
+| e_date_of_joing | varchar(50)   | YES  |     | NULL    |       |
+| e_img           | varchar(1000) | YES  |     | NULL    |       |
+| e_address       | varchar(500)  | YES  |     | NULL    |       |
+| e_mob           | varchar(20)   | YES  |     | NULL    |       |
+| e_email         | varchar(50)   | YES  |     | NULL    |       |
+| e_date_of_birth | varchar(50)   | YES  |     | NULL    |       |
++-----------------+---------------+------+-----+---------+-------+
+11 rows in set (0.05 sec)
+
+
+/////////////////////////////////////////////////////////////////////////
+
+mysql> create table employee(e_id int ,e_type varchar(30),e_username varchar(50) primary key,e_password varchar(50), e_salary float,e_date_of_joing varchar(50),e_img varchar(5000),e_address varchar(500),e_mob varchar(15),e_email varchar(50),e_date_of_birth varchar(50),e_name varchar(190));
+Query OK, 0 rows affected (0.11 sec)
+
+insert into employee values (1,"ADMIN","praveen","pass123",6000,"2-2014-7","E:\Ebook\photo\IMG-20141005-00861.jpg","katraj","9225523840","praveen@gamil.com","14-7-1994","praveen suresh suryawanshi");
+K, 1 row affected (0.01 sec)
+
+
+
+
+
+
+/////////////////////////////////////////////////
+
+
+customer ;
+
+
+ create table customer(cust_id int,cust_username varchar(15) primary key ,cust_password varchar(15),cust_amt float, cust_name varchar(100),cust_img_src varchar(10000),cust_address varchar(200),cust_e_mail varchar(150),cust_mob_no varchar(20),cust_doj varchar(30),cust_dob varchar(30),created_by varchar(50));
+OK, 0 rows affected (0.31 sec)
+
+
+
+
+mysql> desc customer;
++---------------+----------------+------+-----+---------+-------+
+| Field         | Type           | Null | Key | Default | Extra |
++---------------+----------------+------+-----+---------+-------+
+| cust_id       | int(11)        | YES  |     | NULL    |       |
+| cust_username | varchar(15)    | NO   | PRI | NULL    |       |
+| cust_password | varchar(15)    | YES  |     | NULL    |       |
+| cust_amt      | float          | YES  |     | NULL    |       |
+| cust_name     | varchar(100)   | YES  |     | NULL    |       |
+| cust_img_src  | varchar(10000) | YES  |     | NULL    |       |
+| cust_address  | varchar(200)   | YES  |     | NULL    |       |
+| cust_e_mail   | varchar(150)   | YES  |     | NULL    |       |
+| cust_mob_no   | varchar(20)    | YES  |     | NULL    |       |
+| cust_doj      | varchar(30)    | YES  |     | NULL    |       |
+| cust_dob      | varchar(30)    | YES  |     | NULL    |       |
+| created_by    | varchar(50)    | YES  |     | NULL    |       |
++---------------+----------------+------+-----+---------+-------+
+12 rows in set (0.01 sec)
+
+
+
+ insert into customer values(1,"123A","praveen123","1500","praveen suryawanshi","----","katraj","praveen@gmail.com","9225523840","14-07-1994","13-09-2001","01");
+OK, 1 row affected (0.08 sec)
+
+-----------------------------------------------------------------------------------------------------------------------------
+mysql> create table bill(bill_no int primary key AUTO_INCREMENT , cust_type varchar(100) , e_username varchar(50) ,foreign key(e_username) references employee(e_username) on delete cascade on update cascade );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc bill;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| bill_no    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| cust_type  | varchar(100) | YES  |     | NULL    |                |
+| e_username | varchar(50)  | YES  | MUL | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+
+mysql> create table bill_cust(tran_id int primary key AUTO_INCREMENT,bill_no int,p_id int,qty int ,unit_price float, total_amt float,period timestamp,foreign key(bill_no) references bill(bill_no) on delete cascade on update cascade,foreign key(p_id) references product(p_id) on delete cascade on update cascade );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> desc bill_cust;
++------------+-----------+------+-----+-------------------+----------------+
+| Field      | Type      | Null | Key | Default           | Extra          |
++------------+-----------+------+-----+-------------------+----------------+
+| tran_id    | int(11)   | NO   | PRI | NULL              | auto_increment |
+| bill_no    | int(11)   | YES  | MUL | NULL              |                |
+| p_id       | int(11)   | YES  | MUL | NULL              |                |
+| qty        | int(11)   | YES  |     | NULL              |                |
+| unit_price | float     | YES  |     | NULL              |                |
+| total_amt  | float     | YES  |     | NULL              |                |
+| period     | timestamp | NO   |     | CURRENT_TIMESTAMP |                |
++------------+-----------+------+-----+-------------------+----------------+
+7 rows in set (0.01 sec)
+
+mysql>
+
+
+
+
+
+
+
+
+
+
